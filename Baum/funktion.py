@@ -15,24 +15,24 @@ def main(server, user, password, database):
 def create_table(table_name):
 
     sql = """
-    IF OBJECT_ID('%s', 'U') IS NOT NULL
-        DROP TABLE %s
-    CREATE TABLE %s (
+    IF OBJECT_ID('{0}', 'U') IS NOT NULL
+        DROP TABLE {0}
+    CREATE TABLE {0} (
         id VARCHAR(10) NOT NULL,
         GPS VARCHAR(10),
         date varchar(10),
         PRIMARY KEY(id))
-    """ %(table_name, table_name, table_name)
+    """.format(table_name)
     mssql.exec_non_query(sql)
 
 
 def drop_table(table_name):
     #  complete delete
-    sql = "drop table %s" % (table_name)
+    sql = "drop table {0}" .format(table_name)
     mssql.exec_non_query(sql)
 
 
-def insert_table(table_name, cursor, index, GPS, date):
+def insert_table(table_name, index, GPS, date):
     sql = "insert into %s values('%s', '%s', '%s')" %(table_name, index, GPS , date )
     mssql.exec_non_query(sql)
 
