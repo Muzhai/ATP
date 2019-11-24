@@ -2,7 +2,6 @@
 # _*_ coding:utf-8 _*_
 
 
-
 def main(server, user, password, database):
     import Class
     global mssql
@@ -10,9 +9,7 @@ def main(server, user, password, database):
     return mssql
 
 
-
-
-def create_table(table_name):
+def create_table(table_name):       # 创建一个定值表
 
     sql = """
     IF OBJECT_ID('{0}', 'U') IS NOT NULL
@@ -26,14 +23,28 @@ def create_table(table_name):
     mssql.exec_non_query(sql)
 
 
-def drop_table(table_name):
-    #  complete delete
-    sql = "drop table {0}" .format(table_name)
+def create_table1(baum):        #根据字典创建表
+    li=['tag_id', 'device_id', 'GPS', 'date']       # 事先约定好表格的列名
+    sql = """
+    IF OBJECT_ID('{table_name}', 'U') IS NOT NULL
+        DROP TABLE {table_name}
+    CREATE TABLE {table_name} (
+        {K[0]} VARCHAR(10) NOT NULL,
+        {K[1]} VARCHAR(10),
+        {K[2]} VARCHAR(10),
+        {K[3]} varchar(10))
+    """.format(table_name=baum['tag_id'], K=li)
     mssql.exec_non_query(sql)
 
 
-def insert_table(table_name, index, GPS, date):
-    sql = "insert into %s values('%s', '%s', '%s')" %(table_name, index, GPS , date )
+def drop_table(baum):
+    #  complete delete
+    sql = "drop table {table_name}" .format(table_name=baum['tag_id'])
+    mssql.exec_non_query(sql)
+
+
+def insert_table(baum):
+    sql = "insert into {table_name}() values('{1}', '{2}', '{3}')" .format(table_name=baum['tag_id'], K=li)
     mssql.exec_non_query(sql)
 
 

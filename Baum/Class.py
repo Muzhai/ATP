@@ -5,17 +5,17 @@ import pymssql
 
 
 class MSSQL:
-    def __init__(self, host, user, pwd, db):  # 类的构造函数，初始化数据库连接ip或者域名，以及用户名，密码，要连接的数据库名称
+    def __init__(self, host, user, pwd, db):  # creat Class, initialize: adress, username, password, database
         self.host = host
         self.user = user
         self.pwd = pwd
         self.db = db
 
-    def get_connect(self):  # 得到数据库连接信息函数， 返回: conn.cursor()
+    def get_connect(self):  # connect to the database, return: conn.cursor()
         self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db, charset='utf8')
-        cur = self.conn.cursor()  # 将数据库连接信息，赋值给cur。
+        cur = self.conn.cursor()  # get cursor
         if not cur:
-            return (NameError, "连接数据库失败")
+            return (NameError, "connect to the database is faul.")
         else:
             return cur
 
@@ -28,7 +28,7 @@ class MSSQL:
         # self.conn.close()  # 返回查询结果
         return resList
 
-    def exec_non_query(self, sql):
+    def exec_non_query(self, sql):       # execute non query sentence
         cur = self.get_connect()
         cur.execute(sql)
         self.conn.commit()
