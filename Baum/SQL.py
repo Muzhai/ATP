@@ -10,15 +10,24 @@ database='Baum'
 conn = pymssql.connect(host, user, password, database, charset='utf8')
 cursor = conn.cursor()
 
-table_name='hallo675'
-sql = "create table %s ( index varchar(10), GPS varchar(10))" %(table_name)
+baum = {'tag_id': 'idt091230',
+        'device_id': 'did1204',
+        'GPS': 'w1820w21',
+        'date': '56756'
+}
+print(list(baum.keys()))
+# create_table1(baum)
+li=['tag_id', 'device_id', 'GPS', 'date']
 
+sql = """
+insert into {D[tag_id]}(tag_id, device_id, GPS, date) 
+select '{D[tag_id]}', '{D[device_id]}', '{D[GPS]}', '{D[date]}' 
+""".format(D=baum)
 print(sql)
-cursor.execute(sql)
+cursor.execute(sql)  # 执行Sql语句
+conn.commit()
 
-# sql1 = "create table %s ( id varchar(10), GPS varchar(5))" %(table_name)
-# print(sql1)
-# cursor.execute(sql1)  # 执行Sql语句
+
 
 
 

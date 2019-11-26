@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # _*_ coding:utf-8 _*_
-
 from funktion import main
 from funktion import create_table
 from funktion import drop_table
 from funktion import insert_table
 from funktion import create_table1
+from funktion import query_table
+from funktion import creat_insert_table
 server = "127.0.0.1"
 user = "ATPbaum"
 password = "ATPbaum"
@@ -13,30 +14,33 @@ database = "Baum"
 
 mssql = main(server, user, password, database)
 
-baum = {'tag_id': 'idt091230',
-        'device_id': 'did120401824',
-        'GPS': 'w1820w21049e244',
-        'date': '56756',
-        'sdfs': '1231',
-        '234325': '461412'
+baum = {'tag_id': 'id00000',
+        'device_id': '23did1204',
+        'GPS': 'w1820w',
+        'date': '56756'
 }
-print(list(baum.keys()))
-# create_table1(baum)
-li=['tag_id', 'device_id', 'GPS', 'date']
+
+baum3 = {'tag_id': 'id00003',
+        'device_id': '23did1204',
+        'GPS': 'gps333',
+        'date': '123456'
+}
+
+creat_insert_table(baum3)
+query_table(baum3)
+
+
+
+
 
 # 插值
 # key值不存在怎么办
-sql = """
-        insert into {D[tag_id]}(tag_id, device_id, GPS, date) 
-        select {D[tag_id]}, {D[device_id]}, {D[GPS]}, {D[date]} 
-        """.format(D=baum)
-print(sql)
-# table_name = 'hallo666'
-# create_table(table_name)
-#
-# insert_table(table_name, '12313', 'gps', '12345')
 
-print(baum.get('tag_id',0))
+# table_name = 'hallo666'
+# create_table(baum)
+#
+# insert_table(baum)
+
 
 
 
