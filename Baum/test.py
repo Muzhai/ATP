@@ -24,6 +24,7 @@ print(list(baum.keys()))
 # create_table1(baum)
 li=['tag_id', 'device_id', 'GPS', 'date']
 
+# 插值
 # key值不存在怎么办
 sql = """
         insert into {D[tag_id]}(tag_id, device_id, GPS, date) 
