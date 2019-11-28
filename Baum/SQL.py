@@ -9,34 +9,35 @@ database='Baum'
 # creat a connection to the database
 conn = pymssql.connect(host, user, password, database, charset='utf8')
 cursor = conn.cursor()
-
-baum = {'tag_id': 'idt091230',
-        'device_id': 'did1204',
-        'GPS': 'w1820w21',
-        'date': '56756'
-}
-print(list(baum.keys()))
-# create_table1(baum)
-li=['tag_id', 'device_id', 'GPS', 'date']
-
+# -----------------creat table ---------------------
 sql = """
-insert into {D[tag_id]}(tag_id, device_id, GPS, date) 
-select '{D[tag_id]}', '{D[device_id]}', '{D[GPS]}', '{D[date]}' 
-""".format(D=baum)
-print(sql)
-cursor.execute(sql)  # 执行Sql语句
+IF OBJECT_ID('{0}', 'U') IS NOT NULL
+    DROP TABLE {0}
+CREATE TABLE {0} (
+    tag_id VARCHAR(10) NOT NULL,
+    device_id VARCHAR(10),
+    GPS varchar(10),
+    date varchar(10))
+""".format("hallo")
+
+# create_sqli = "create table hello (id int, name varchar(30));"
+cursor.execute(sql)
+
+conn.commit()
+#--------------- insert table ---------------------
+
+sql1 = """
+insert into hallo(tag_id, device_id, GPS, date) 
+select '12314',' sf3424',' 201918' ,'1234'union 
+select '34556', 'sdj134', '1238074','asdl'
+"""
+cursor.execute(sql1)
 conn.commit()
 
+#-------------- quuery table ----------------------
+sql3 = "select * from hallo"
+cursor.execute(sql3)
+table = cursor.fetchall()
+print(table)
 
 
-
-
-# resList = cursor.fetchall()  # 获得所有的查询结果
-# print(resList)
-
-
-# sql1 = "\"create table halloopp ( id varchar(10), GPS varchar(5))\" "
-# print(sql1)
-
-# cursor.execute(sql1)
-# conn.commit()
