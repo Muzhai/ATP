@@ -4,25 +4,34 @@
 
 # 创建一个数据库连接
 def main(server, user, password, database):
-    import Class
-    global mssql
-    mssql = Class.MSSQL(server, user, password, database)
-    return mssql
+    try:
+        import Class
+        global mssql
+        mssql = Class.MSSQL(server, user, password, database)
+    except Exception as e:
+        print("Connect to the database unsuccessful:", e)
+    else:
+        print("Connect to the database successful!")
+        return mssql
 
 
 # 创建一个定值表
 def create_table(table_name):
-
-    sql = """
-    IF OBJECT_ID('{0}', 'U') IS NOT NULL
-        DROP TABLE {0}
-    CREATE TABLE {0} (
-        tag_id VARCHAR(10) NOT NULL,
-        device_id VARCHAR(10),
-        GPS varchar(10),
-        date varchar(10))
-    """.format(table_name)
-    mssql.exec_non_query(sql)
+    try:
+        sql = """
+        IF OBJECT_ID('{0}', 'U') IS NOT NULL
+            DROP TABLE {0}
+        CREATE TABLE {0} (
+            tag_id VARCHAR(10) NOT NULL,
+            device_id VARCHAR(10),
+            GPS varchar(10),
+            date varchar(10))
+        """.format(table_name)
+        mssql.exec_non_query(sql)
+    except Exception as e:
+        print("Create table unsuccessful:", e)
+    else:
+        print("Create table successful!")
 
 
 # 删除整个列表
@@ -34,11 +43,16 @@ def drop_table(table_name):
 
 # 向默认baum_test表插值，输入格式为一个字典
 def insert_table_baum_test(baum, table_name='baum_test'):
-    sql = """
-    insert into {table_name}(tag_id, device_id, GPS, date) 
-    select '{D[tag_id]}', ' {D[device_id]}', ' {D[GPS]}', '{D[date]}'
-    """.format(D=baum, table_name=table_name)
-    mssql.exec_non_query(sql)
+    try:
+        sql = """
+        insert into {table_name}(tag_id, device_id, GPS, date) 
+        select '{D[tag_id]}', ' {D[device_id]}', ' {D[GPS]}', '{D[date]}'
+        """.format(D=baum, table_name=table_name)
+        mssql.exec_non_query(sql)
+    except Exception as e:
+        print("Insert unsuccessful:", e)
+    else:
+        print("Insert successful!")
 
 
 # 批量向固定表格插入固定格式数据数据 输入参数为列表格式
@@ -49,28 +63,43 @@ def insert_table_batch(baum_list, table_name='baum_test'):
 
 # 输出整个表
 def query_table(table_name):
-    sql = "select * from {table_name}".format(table_name=table_name)
-    result=mssql.exec_query(sql)
-    print(result)
+    try:
+        sql = "select * from {table_name}".format(table_name=table_name)
+        result=mssql.exec_query(sql)
+    except Exception as e:
+        print("Query unsuccessful:", e)
+    else:
+        print("Query successful:")
+        print(result)
 
 
 # 按tag_id筛选并按日期排序
 def query_table_id(tag_id):
-    sql = """
-        select * from baum_test 
-        where tag_id = '{0}' 
-        order by date""" .format(tag_id)
-    result = mssql.exec_query(sql)
-    print(result)
+    try:
+        sql = """
+            select * from baum_test 
+            where tag_id = '{0}' 
+            order by date""" .format(tag_id)
+        result = mssql.exec_query(sql)
+    except Exception as e:
+        print("Query unsuccessful:", e)
+    else:
+        print(result)
 
 
 # 删除某id下的全部行
 def delete_table_id(tag_id):
-    sql = """
-    delete from baum_test 
-    where tag_id ='{0}'
-    """ .format(tag_id)
-    mssql.exec_non_query(sql)
+    try:
+        sql = """
+        delete from baum_test 
+        where tag_id ='{0}'
+        """ .format(tag_id)
+        mssql.exec_non_query(sql)
+    except Exception as e:
+        print("Delete unsuccessful:", e)
+    else:
+        print("Delete successful!")
+
 
 
 
