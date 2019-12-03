@@ -106,7 +106,8 @@ def delete_table_id(tag_id):
 def creat_login_r(username, password):
     sql = """
         EXEC sp_addlogin '{0}','{1}','Baum'
-        EXEC sp_adduser '{0}','{0}','Role_r' 
+        create user {0} for login {0} with default_schema=Role_r
+        EXEC sp_addrolemember 'Role_r','{0}'
         """.format(username, password)
     mssql.exec_non_query(sql)
 
@@ -115,7 +116,8 @@ def creat_login_r(username, password):
 def creat_login_rw(username, password):
     sql = """
         EXEC sp_addlogin '{0}','{1}','Baum'
-        EXEC sp_adduser '{0}','{0}','Role_rw' 
+        create user {0} for login {0} with default_schema=Role_rw
+        EXEC sp_addrolemember 'Role_rw','{0}'
         """.format(username, password)
     mssql.exec_non_query(sql)
 
