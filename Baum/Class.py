@@ -12,7 +12,7 @@ class MSSQL:
         self.db = db
 
     def get_connect(self):  # connect to the database, return: conn.cursor()
-        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db, charset='utf8')
+        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db, charset='utf8', autocommit = True)
         cur = self.conn.cursor()  # get cursor
         if not cur:
             return (NameError, "connect to the database is faul.")
@@ -25,14 +25,13 @@ class MSSQL:
         cur.execute(sql)  # 执行Sql语句
         resList = cur.fetchall()  # 获得所有的查询结果
         # 查询完毕后必须关闭连接
-        # self.conn.close()  # 返回查询结果
+        self.conn.close()  # 返回查询结果
         return resList
 
     def exec_non_query(self, sql):       # execute non query sentence
         cur = self.get_connect()
         cur.execute(sql)
-        self.conn.commit()
-        # self.conn.close()
+        self.conn.close()
 
 
 

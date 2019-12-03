@@ -40,4 +40,5 @@ cursor.execute(sql3)
 table = cursor.fetchall()
 print(table)
 
-
+cursor.close()
+conn.close()

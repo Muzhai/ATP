@@ -101,8 +101,34 @@ def delete_table_id(tag_id):
         print("Delete successful!")
 
 
+# 创建服务器登陆名，用户, 指定默认数据库Baum, 只读
+# 前提在数据库中提前创建用户角色
+def creat_login_r(username, password):
+    sql = """
+        EXEC sp_addlogin '{0}','{1}','Baum'
+        EXEC sp_adduser '{0}','{0}','Role_r' 
+        """.format(username, password)
+    mssql.exec_non_query(sql)
 
 
+# 创建服务器登陆名，用户, 指定默认数据库Baum, 读写
+def creat_login_rw(username, password):
+    sql = """
+        EXEC sp_addlogin '{0}','{1}','Baum'
+        EXEC sp_adduser '{0}','{0}','Role_rw' 
+        """.format(username, password)
+    mssql.exec_non_query(sql)
+
+
+# # 初始化用户角色 创建只读，读写权限用户角色 Role_rw 和 Role_r
+# def creat_user_role():
+#     sql="""
+#     EXEC sp_addrole 'Role_rw'
+#     GRANT SELECT,INSERT ON baum_test TO Role_rw
+#     EXEC sp_addrole 'Role_r'
+#     GRANT SELECT ON baum_test TO Role_r
+#     """
+#     mssql.exec_non_query(sql)
 
 
 # def create_table1(baum):        # 根据字典创建列表
