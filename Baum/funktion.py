@@ -42,7 +42,7 @@ def drop_table(table_name):
 
 
 # 向默认baum_test表插值，输入格式为一个字典
-def insert_table_baum_test(baum, table_name='baum_test'):
+def insert_table(baum, table_name='baum_test'):
     try:
         sql = """
         insert into {table_name}(tag_id, device_id, GPS, date) 
@@ -50,15 +50,15 @@ def insert_table_baum_test(baum, table_name='baum_test'):
         """.format(D=baum, table_name=table_name)
         mssql.exec_non_query(sql)
     except Exception as e:
-        print("Insert unsuccessful:", e)
+        print("Insert '{D[tag_id]}' to baum_test unsuccessfully:".format(D=baum), e)
     else:
-        print("Insert successful!")
+        print("Insert '{D[tag_id]}' to baum_test successfully!".format(D=baum))
 
 
 # 批量向固定表格插入固定格式数据数据 输入参数为列表格式
 def insert_table_batch(baum_list, table_name='baum_test'):
     for baum in baum_list:
-        insert_table_baum_test(baum, table_name)
+        insert_table(baum, table_name)
 
 
 # 输出整个表
@@ -67,9 +67,9 @@ def query_table(table_name):
         sql = "select * from {table_name}".format(table_name=table_name)
         result=mssql.exec_query(sql)
     except Exception as e:
-        print("Query unsuccessful:", e)
+        print("Query '{table_name}' unsuccessfully:".format(table_name=table_name), e)
     else:
-        print("Query successful:")
+        print("Query '{table_name}' successfully:".format(table_name=table_name))
         print(result)
 
 
@@ -78,12 +78,13 @@ def query_table_id(tag_id):
     try:
         sql = """
             select * from baum_test 
-            where tag_id = '{0}' 
-            order by date""" .format(tag_id)
+            where tag_id = '{tag_id}' 
+            order by date""" .format(tag_id=tag_id)
         result = mssql.exec_query(sql)
     except Exception as e:
-        print("Query unsuccessful:", e)
+        print("Query '{tag_id}' unsuccessfully:".format(tag_id=tag_id), e)
     else:
+        print("Query '{tag_id}' successfully:".format(tag_id=tag_id))
         print(result)
 
 
@@ -92,18 +93,18 @@ def delete_table_id(tag_id):
     try:
         sql = """
         delete from baum_test 
-        where tag_id ='{0}'
-        """ .format(tag_id)
+        where tag_id ='{tag_id}'
+        """ .format(tag_id=tag_id)
         mssql.exec_non_query(sql)
     except Exception as e:
-        print("Delete unsuccessful:", e)
+        print("Delete '{tag_id}' unsuccessfully:".format(tag_id=tag_id), e)
     else:
-        print("Delete successful!")
+        print("Delete '{tag_id}' successful!".format(tag_id=tag_id))
 
 
 # 创建服务器登陆名，用户, 指定默认数据库Baum, 只读
 # 前提在数据库中提前创建用户角色
-def creat_login_r(username, password):
+def create_login_r(username, password):
     sql = """
         EXEC sp_addlogin '{0}','{1}','Baum'
         create user {0} for login {0} with default_schema=Role_r
@@ -113,7 +114,7 @@ def creat_login_r(username, password):
 
 
 # 创建服务器登陆名，用户, 指定默认数据库Baum, 读写
-def creat_login_rw(username, password):
+def create_login_rw(username, password):
     sql = """
         EXEC sp_addlogin '{0}','{1}','Baum'
         create user {0} for login {0} with default_schema=Role_rw
