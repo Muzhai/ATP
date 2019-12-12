@@ -19,14 +19,12 @@ class MSSQL:
         else:
             return cur
 
-    # 执行查询语句,返回的是一个包含tuple的list，list的元素是记录行，tuple的元素是每行记录的字段
-    def exec_query(self, sql):  # 执行Sql语句函数，返回结果
-        cur = self.get_connect()  # 获得数据库连接信息
+    def exec_query(self, sql):  # execute query sentence
+        cur = self.get_connect()  # get database connect information获得数据库连接信息
         cur.execute(sql)  # 执行Sql语句
-        resList = cur.fetchall()  # 获得所有的查询结果
-        # 查询完毕后必须关闭连接
-        self.conn.close()  # 返回查询结果
-        return resList
+        resList = cur.fetchall()  # get queried result
+        self.conn.close()   # close the connect
+        return resList      # return result; list
 
     def exec_non_query(self, sql):       # execute non query sentence
         cur = self.get_connect()

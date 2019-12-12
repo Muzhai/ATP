@@ -6,18 +6,13 @@ from funktion import query_table
 from funktion import insert_table_batch
 from funktion import query_table_id
 from funktion import delete_table_id
+from funktion import query_table_ele
 
 server = "127.0.0.1"
 user = "ATPbaum"
 password = "ATPbaum"
 database = "Baum"
 mssql = main(server, user, password, database)
-
-# username='halloworld'
-# key = '123456'
-# creat_login_rw(username, key)
-
-# mssql = main(server, username, key, database)
 
 
 table_name= 'baum_test'
@@ -59,7 +54,7 @@ delete_table_id(tag_id3)
 insert_table_batch(baum_list)
 query_table_id(tag_id1)
 query_table(table_name)
-
+query_table_ele('device_id', 'rgs23451')
 
 
 

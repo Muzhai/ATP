@@ -2,7 +2,7 @@
 # _*_ coding:utf-8 _*_
 
 
-# 创建一个数据库连接
+# connect to server
 def main(server, user, password, database):
     try:
         import Class
@@ -15,7 +15,7 @@ def main(server, user, password, database):
         return mssql
 
 
-# 创建一个定值表
+# create a table
 def create_table(table_name):
     try:
         sql = """
@@ -34,19 +34,19 @@ def create_table(table_name):
         print("Create table successful!")
 
 
-# 删除整个列表
+# delete table
 def drop_table(table_name):
     #  complete delete
     sql = "drop table {table_name}" .format(table_name=table_name)
     mssql.exec_non_query(sql)
 
 
-# 向默认baum_test表插值，输入格式为一个字典
+# insert to table baum_test; baum_test is a default table; 'baum' is a dictionary
 def insert_table(baum, table_name='baum_test'):
     try:
         sql = """
         insert into {table_name}(tag_id, device_id, GPS, date) 
-        select '{D[tag_id]}', ' {D[device_id]}', ' {D[GPS]}', '{D[date]}'
+        select '{D[tag_id]}', '{D[device_id]}', '{D[GPS]}', '{D[date]}'
         """.format(D=baum, table_name=table_name)
         mssql.exec_non_query(sql)
     except Exception as e:
@@ -55,13 +55,13 @@ def insert_table(baum, table_name='baum_test'):
         print("Insert '{D[tag_id]}' to baum_test successfully!".format(D=baum))
 
 
-# 批量向固定表格插入固定格式数据数据 输入参数为列表格式
+# insert batch data to table; 'baum_list' is a list
 def insert_table_batch(baum_list, table_name='baum_test'):
     for baum in baum_list:
         insert_table(baum, table_name)
 
 
-# 输出整个表
+# read table total
 def query_table(table_name):
     try:
         sql = "select * from {table_name}".format(table_name=table_name)
@@ -73,7 +73,7 @@ def query_table(table_name):
         print(result)
 
 
-# 按tag_id筛选并按日期排序
+# query table with tag_id and order by data
 def query_table_id(tag_id):
     try:
         sql = """
@@ -88,7 +88,23 @@ def query_table_id(tag_id):
         print(result)
 
 
-# 删除某id下的全部行
+# query table with someone table element and its target
+def query_table_ele(table_ele, target):
+    try:
+        sql = """
+            select * from baum_test 
+            where {table_ele} = '{target}' 
+            order by date""" .format(table_ele=table_ele, target=target)
+        result = mssql.exec_query(sql)
+    except Exception as e:
+        print("Query '{table_ele}': '{target}' unsuccessfully:".format(table_ele=table_ele, target=target), e)
+    else:
+        print("Query '{table_ele}': '{target}' successfully:".format(table_ele=table_ele, target=target))
+        print(result)
+
+
+
+# delete information under a tag_id
 def delete_table_id(tag_id):
     try:
         sql = """
