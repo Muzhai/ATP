@@ -1,26 +1,59 @@
 # ATP
 
-16.11.2019 created the project
+1.Precondition
+	1)modul psmssql in python installed
+	2)SQL Server: host, username, password, database
 
-19.11.2019 created funktion of creat_table, insert_table
-	creat_table(table_name, cursor): 
-		column name: N GPS date
+	
+2.Funktion
+	1) main(server host, username, password, database)
+		connect to the SQL Server and database
+		retun a connect
+	
+	2) creat_table(table_name)
+		table_name : string
+		create a table which include tag_id, device_id, GPS, date
+	
+	3) drop_table(table_name)
+		table_name : string
+		drop a table totally
 		
-	insert_table(table_name, cursor, n, GPS, date):
-	
-20.11.2019 created drop_table, delete_row but not yet test
-	notice: add Error_detection and data_Rollback to funktion 
-			插入数据时自动编号
-			
-21.11.2019 Created a Class and a Funktion modul
-	every funktion in the modul can use the funktionen in Class
-	reduce the compilcation of main_program...
-	creat_table
-	drop_table
-	
-26.11.2019 
-	以字典的方式创建，插入，查询（全部），删除表
-	表的创建和数据插入的整合：若表不存在则创建并插入，存在则只插入
-	创建用户并分配权限
-	
+	4) insert_table_batch(baum_list,table_name='baum_test')
+		insert batch information to the table 
+		baum_list : list
+		defaul table : baum_test
+		list[{baum1}, {buam2},...], element of the list is a dictionary. Its key correspond to the column of the table
+		
+	5) insert_table(baum)
+		insert single information to the table
+		baum : dictionary, correspond to the table 
+		baum{tag_id:xxx, device_id:xxx GPS:xxx, date: xxx}
+		
+	6) query_table(table_name)
+		table_name : string
+		read the table totally
+		
+	7) query_table_id(tag_id)
+		tag_id : string
+		read the table according to tag_id ordered by date
+
+	8)query_table_ele(table_ele, target)
+		table_ele, target : string
+		read the table according to "table_ele" and its target ordered by date
+		e.g. : query_table_ele('device_id', 'rgs23451')
+		
+	9) delete_table_id(tag_id)
+		tag_id : string
+		delete the rows which tag_id is tag_id hier
+		
+		
+	Precondition : administer right, create user_role: Role_r and Role_rw 
+	10) create_login_r(username, password)
+		username, password : string
+		create a only read login_name and password 
+		
+	11) create_login_rw(username, password)
+		username, password : string
+		create a write read login_name and password		
+		
 	
