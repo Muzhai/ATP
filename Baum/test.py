@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # _*_ coding:utf-8 _*_
 from funktion import main
-
 from funktion import query_table
 from funktion import insert_table_batch
 from funktion import query_table_id
@@ -59,22 +58,3 @@ query_table_ele('device_id', 'rgs23451')
 
 
 
-# tag_id = 'id00003'
-# query_table_id(tag_id)                # 默认在表Baum_test里查询
-#
-# insert_table_batch(baum_list, table_name='hallo')
-# 插值
-# key值不存在怎么办
-
-# table_name = 'hallo666'
-# create_table(baum)
-#
-# insert_table(baum)
-
-
-# sql6 = """
-# insert into {baum_test}(tag_id, device_id, GPS, date)
-# select '{D[tag_id]}', ' {D[device_id]}', ' {D[GPS]}', '{D[date]}'
-# """.format(D=baum, baum_test=table_name)
-#
-# print(sql6)

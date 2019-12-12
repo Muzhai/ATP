@@ -2,13 +2,15 @@
 
 1.Precondition
 	1)modul psmssql in python installed
+	
 	2)SQL Server: host, username, password, database
 
 	
 2.Funktion
+
 	1) main(server host, username, password, database)
 		connect to the SQL Server and database
-		retun a connect
+		return a connect
 	
 	2) creat_table(table_name)
 		table_name : string
@@ -48,6 +50,8 @@
 		
 		
 	Precondition : administer right, create user_role: Role_r and Role_rw 
+				   see initial_role.sql
+	
 	10) create_login_r(username, password)
 		username, password : string
 		create a only read login_name and password 

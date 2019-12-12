@@ -15,7 +15,7 @@ def main(server, user, password, database):
         return mssql
 
 
-# create a table
+# create a table tag_id, device_id, GPS, date
 def create_table(table_name):
     try:
         sql = """
@@ -88,7 +88,7 @@ def query_table_id(tag_id):
         print(result)
 
 
-# query table with someone table element and its target
+# query table with some table element and its target
 def query_table_ele(table_ele, target):
     try:
         sql = """
@@ -101,7 +101,6 @@ def query_table_ele(table_ele, target):
     else:
         print("Query '{table_ele}': '{target}' successfully:".format(table_ele=table_ele, target=target))
         print(result)
-
 
 
 # delete information under a tag_id
@@ -118,8 +117,8 @@ def delete_table_id(tag_id):
         print("Delete '{tag_id}' successful!".format(tag_id=tag_id))
 
 
-# 创建服务器登陆名，用户, 指定默认数据库Baum, 只读
-# 前提在数据库中提前创建用户角色
+# precondition: create only_read Role: Role_r ; read and write Role: Role_rw
+# create SQL Server login name and grant to read right with default database Baum and default table baum_test
 def create_login_r(username, password):
     sql = """
         EXEC sp_addlogin '{0}','{1}','Baum'
@@ -129,7 +128,7 @@ def create_login_r(username, password):
     mssql.exec_non_query(sql)
 
 
-# 创建服务器登陆名，用户, 指定默认数据库Baum, 读写
+# create SQL Server login name and grant to read, write right with default database Baum and default table baum_test
 def create_login_rw(username, password):
     sql = """
         EXEC sp_addlogin '{0}','{1}','Baum'
@@ -139,7 +138,7 @@ def create_login_rw(username, password):
     mssql.exec_non_query(sql)
 
 
-# # 初始化用户角色 创建只读，读写权限用户角色 Role_rw 和 Role_r
+# create user Role: Role_rw and Role_r
 # def creat_user_role():
 #     sql="""
 #     EXEC sp_addrole 'Role_rw'
@@ -150,8 +149,8 @@ def create_login_rw(username, password):
 #     mssql.exec_non_query(sql)
 
 
-# def create_table1(baum):        # 根据字典创建列表
-#     li=['tag_id', 'device_id', 'GPS', 'date']       # 事先约定好表格的列名
+# def create_table1(baum):        # according to dict to create table
+#     li=['tag_id', 'device_id', 'GPS', 'date']       # column name
 #     sql = """
 #     IF OBJECT_ID('{table_name}', 'U') IS NOT NULL
 #         DROP TABLE {table_name}
@@ -165,13 +164,13 @@ def create_login_rw(username, password):
 #     mssql.exec_non_query(sql)
 
 
-# def drop_table(baum):       # 删除整个列表
+# def drop_table(baum):
 #     #  complete delete
 #     sql = "drop table {table_name}" .format(table_name=baum['tag_id'])
 #     mssql.exec_non_query(sql)
 
 
-# def insert_table(baum):     # 向列表插入值 列表名为tag_id
+# def insert_table(baum):     # insert to the table, baum: dict..
 #     sql = """
 #     insert into {D[tag_id]}(tag_id, device_id, GPS, date)
 #     select '{D[tag_id]}',' {D[device_id]}',' {D[GPS]}', '{D[date]}'

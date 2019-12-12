@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # _*_ coding:utf-8 _*_
+
+#  Test
 import pymssql
+
+
 
 host='127.0.0.1'        #defaul IP adress
 user='ATPbaum'
@@ -20,7 +24,6 @@ CREATE TABLE {0} (
     date varchar(10))
 """.format("hallo")
 
-# create_sqli = "create table hello (id int, name varchar(30));"
 cursor.execute(sql)
 
 conn.commit()

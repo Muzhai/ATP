@@ -21,7 +21,7 @@ class MSSQL:
 
     def exec_query(self, sql):  # execute query sentence
         cur = self.get_connect()  # get database connect information获得数据库连接信息
-        cur.execute(sql)  # 执行Sql语句
+        cur.execute(sql)
         resList = cur.fetchall()  # get queried result
         self.conn.close()   # close the connect
         return resList      # return result; list
