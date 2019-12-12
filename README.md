@@ -1,6 +1,7 @@
 # ATP
 
 1.Precondition
+
 	1)modul psmssql in python installed
 	
 	2)SQL Server: host, username, password, database
