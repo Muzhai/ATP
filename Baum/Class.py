@@ -5,7 +5,7 @@ import pymssql
 
 
 class MSSQL:
-    def __init__(self, host, user, pwd, db):  # creat Class, initialize: adress, username, password, database
+    def __init__(self, host, user, pwd, db):  # creat Class, initialize: address, username, password, database
         self.host = host
         self.user = user
         self.pwd = pwd
@@ -13,7 +13,7 @@ class MSSQL:
 
     def get_connect(self):  # connect to the database, return: conn.cursor()
         self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db, charset='utf8', autocommit = True)
-        cur = self.conn.cursor()  # get cursor
+        cur = self.conn.cursor(as_dict=True)  # get cursor
         if not cur:
             return (NameError, "connect to the database is faul.")
         else:
@@ -30,6 +30,10 @@ class MSSQL:
         cur = self.get_connect()
         cur.execute(sql)
         self.conn.close()
+
+
+
+
 
 
 
