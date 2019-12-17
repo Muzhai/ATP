@@ -18,32 +18,32 @@ table_name= 'baum_test'
 
 baum = {'tag_id': 'id00001',
         'device_id': '23did1204',
-        'GPS': 'w1820w',
+        'GPS': '50.783067, 6.045786',
         'date': '20191127'
 }
-baum2 = {'tag_id': 'id00002',
+baum2 = {'tag_id': 'id00001',
         'device_id': 'rgs23451',
-        'GPS': 'ry23536',
+        'GPS': '50.783067, 6.047786',
         'date': '20191128'
 }
-baum3 = {'tag_id': 'id00004',
+baum3 = {'tag_id': 'id00001',
         'device_id': '23did1204',
-        'GPS': 'gps333',
+        'GPS': '50.783067, 6.049786',
         'date': '20191128'
 }
-baum4 = {'tag_id': 'id00003',
+baum4 = {'tag_id': 'id00001',
         'device_id': '34523',
-        'GPS': 'gps335436',
+        'GPS': '50.783067, 6.055786',
         'date': '20191127'
 }
 
 baum_list=[]
 baum_list.extend([baum, baum2, baum3, baum4])
 
-tag_id = 'id00004'
-tag_id1 = 'id00001'
-tag_id2 = 'id00002'
-tag_id3 = 'id00003'
+tag_id = 'id00001'
+tag_id1 = 'id00002'
+tag_id2 = 'id00003'
+tag_id3 = 'id00004'
 delete_table_id(tag_id)
 delete_table_id(tag_id1)
 delete_table_id(tag_id2)
@@ -51,9 +51,9 @@ delete_table_id(tag_id3)
 
 
 insert_table_batch(baum_list)
-query_table_id(tag_id1)
-query_table(table_name)
-query_table_ele('device_id', 'rgs23451')
+print(query_table_id(tag_id))
+print(query_table(table_name))
+print(query_table_ele('device_id', 'rgs23451'))
 
 
 
