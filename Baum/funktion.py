@@ -22,10 +22,10 @@ def create_table(table_name):
         IF OBJECT_ID('{0}', 'U') IS NOT NULL
             DROP TABLE {0}
         CREATE TABLE {0} (
-            tag_id VARCHAR(10) NOT NULL,
-            device_id VARCHAR(10),
-            GPS varchar(10),
-            date varchar(10))
+            tag_id VARCHAR(100) NOT NULL,
+            device_id VARCHAR(100),
+            GPS varchar(100),
+            date varchar(100))
         """.format(table_name)
         mssql.exec_non_query(sql)
     except Exception as e:
@@ -69,8 +69,8 @@ def query_table(table_name):
     except Exception as e:
         print("Query '{table_name}' unsuccessfully:".format(table_name=table_name), e)
     else:
-        print("Query '{table_name}' successfully:".format(table_name=table_name))
-        print(result)
+        print("Query '{table_name}' successfully!".format(table_name=table_name))
+        return result
 
 
 # query table with tag_id and order by data
@@ -84,8 +84,8 @@ def query_table_id(tag_id):
     except Exception as e:
         print("Query '{tag_id}' unsuccessfully:".format(tag_id=tag_id), e)
     else:
-        print("Query '{tag_id}' successfully:".format(tag_id=tag_id))
-        print(result)
+        print("Query '{tag_id}' successfully!".format(tag_id=tag_id))
+        return result
 
 
 # query table with some table element and its target
@@ -99,8 +99,8 @@ def query_table_ele(table_ele, target):
     except Exception as e:
         print("Query '{table_ele}': '{target}' unsuccessfully:".format(table_ele=table_ele, target=target), e)
     else:
-        print("Query '{table_ele}': '{target}' successfully:".format(table_ele=table_ele, target=target))
-        print(result)
+        print("Query '{table_ele}': '{target}' successfully!".format(table_ele=table_ele, target=target))
+        return result
 
 
 # delete information under a tag_id
@@ -136,6 +136,28 @@ def create_login_rw(username, password):
         EXEC sp_addrolemember 'Role_rw','{0}'
         """.format(username, password)
     mssql.exec_non_query(sql)
+
+#------------------------------------------------------------------------------
+#----------------------MAPS----------------------------------------------------
+
+
+def gps_map_marker(baums):
+    import folium
+    import webbrowser
+    gpss = []
+    for baum in baums:
+        g = baum['GPS']
+        gsr = g.split(', ')
+        lat = float(gsr[0])
+        lon = float(gsr[1])
+        gps = [lat, lon]
+        gpss.append(gps)
+    m = folium.Map(location=gpss[0], zoom_start=16)
+    for gps in gpss:
+        folium.Marker(gps, popup='<i>test</i>').add_to(m)
+    m.save('temp.html')
+    webbrowser.open("temp.html")
+
 
 
 # create user Role: Role_rw and Role_r
