@@ -10,9 +10,10 @@ class MSSQL:
         self.user = user
         self.pwd = pwd
         self.db = db
+        self.conn = None
 
     def get_connect(self):  # connect to the database, return: conn.cursor()
-        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db, charset='utf8', autocommit = True)
+        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db, charset='utf8', autocommit=True)
         cur = self.conn.cursor(as_dict=True)  # get cursor
         if not cur:
             return (NameError, "connect to the database is faul.")
