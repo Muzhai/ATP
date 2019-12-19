@@ -137,29 +137,35 @@ def create_login_rw(username, password):
         """.format(username, password)
     mssql.exec_non_query(sql)
 
-#------------------------------------------------------------------------------
-#----------------------MAPS----------------------------------------------------
+# ------------------------------------------------------------------------------
+# ----------------------MAPS----------------------------------------------------
 
 
+# GPS location mark on map
+# Connect points in time order
+# baums: list
 def gps_map_marker(baums):
     import folium
     import webbrowser
     gpss = []
     for baum in baums:
         g = baum['GPS']
-        gsr = g.split(', ')
-        lat = float(gsr[0])
-        lon = float(gsr[1])
-        gps = [lat, lon]
+        gps = eval('[' + g + ']')
         gpss.append(gps)
-    m = folium.Map(location=gpss[0], zoom_start=16)
-    for gps in gpss:
-        folium.Marker(gps, popup='<i>test</i>').add_to(m)
+        info = baum['tag_id'] + ' ' + baum['date']
+        if gpss[0] == gpss[-1]:
+            m = folium.Map(location=gpss[0], zoom_start=16)
+        folium.Marker(gps, popup=info).add_to(m)
+    ls = folium.PolyLine(locations=gpss, color='blue', opacity='0.5')
+    ls.add_to(m)
     m.save('temp.html')
     webbrowser.open("temp.html")
 
 
 
+
+# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # create user Role: Role_rw and Role_r
 # def creat_user_role():
 #     sql="""
