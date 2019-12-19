@@ -34,5 +34,3 @@ query_table_ele('device_id', 'rgs23451')
 
 
 
-
-
