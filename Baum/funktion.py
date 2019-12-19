@@ -143,7 +143,7 @@ def create_login_rw(username, password):
 
 # GPS location mark on map
 # Connect points in time order
-# baums: list
+# baums: list from query
 def gps_map_marker(baums):
     import folium
     import webbrowser
