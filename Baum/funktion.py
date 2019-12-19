@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # _*_ coding:utf-8 _*_
 
+# define default table name in database
+global default_table_name
+default_table_name = 'baum_test'
+
 
 # connect to server
 def main(server, user, password, database):
@@ -42,7 +46,7 @@ def drop_table(table_name):
 
 
 # insert to table baum_test; baum_test is a default table; 'baum' is a dictionary
-def insert_table(baum, table_name='baum_test'):
+def insert_table(baum, table_name=default_table_name):
     try:
         sql = """
         insert into {table_name}(tag_id, device_id, GPS, date) 
@@ -56,7 +60,7 @@ def insert_table(baum, table_name='baum_test'):
 
 
 # insert batch data to table; 'baum_list' is a list
-def insert_table_batch(baum_list, table_name='baum_test'):
+def insert_table_batch(baum_list, table_name=default_table_name):
     for baum in baum_list:
         insert_table(baum, table_name)
 
@@ -74,12 +78,12 @@ def query_table(table_name):
 
 
 # query table with tag_id and order by data
-def query_table_id(tag_id):
+def query_table_id(tag_id, table_name=default_table_name):
     try:
         sql = """
-            select * from baum_test 
+            select * from {table_name} 
             where tag_id = '{tag_id}' 
-            order by date""" .format(tag_id=tag_id)
+            order by date""" .format(tag_id=tag_id, table_name=table_name)
         result = mssql.exec_query(sql)
     except Exception as e:
         print("Query '{tag_id}' unsuccessfully:".format(tag_id=tag_id), e)
@@ -89,12 +93,12 @@ def query_table_id(tag_id):
 
 
 # query table with some table element and its target
-def query_table_ele(table_ele, target):
+def query_table_ele(table_ele, target, table_name=default_table_name):
     try:
         sql = """
-            select * from baum_test 
+            select * from {table_name} 
             where {table_ele} = '{target}' 
-            order by date""" .format(table_ele=table_ele, target=target)
+            order by date""" .format(table_ele=table_ele, target=target, table_name=table_name)
         result = mssql.exec_query(sql)
     except Exception as e:
         print("Query '{table_ele}': '{target}' unsuccessfully:".format(table_ele=table_ele, target=target), e)
@@ -104,12 +108,12 @@ def query_table_ele(table_ele, target):
 
 
 # delete information under a tag_id
-def delete_table_id(tag_id):
+def delete_table_id(tag_id, table_name=default_table_name):
     try:
         sql = """
-        delete from baum_test 
+        delete from {table_name}
         where tag_id ='{tag_id}'
-        """ .format(tag_id=tag_id)
+        """ .format(tag_id=tag_id, table_name=table_name)
         mssql.exec_non_query(sql)
     except Exception as e:
         print("Delete '{tag_id}' unsuccessfully:".format(tag_id=tag_id), e)
