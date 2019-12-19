@@ -61,4 +61,11 @@
 		username, password : string
 		create a write read login_name and password		
 		
+	MAP:
+	
+	12) gps_map_marker(baums)
+		GPS location mark on map
+ 		Connect points in time order
+		baums: list from query
+		
 	
