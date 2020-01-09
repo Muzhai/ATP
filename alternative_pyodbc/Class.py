@@ -25,7 +25,6 @@ class MSSQL:
         DATABASE={info[database]};
         UID={info[user]};
         PWD={info[pwd]};
-        autocommit = True
         '''.format(info=conct))
         cur = self.conn.cursor()  # get cursor
         if not cur:
@@ -46,6 +45,7 @@ class MSSQL:
     def exec_non_query(self, sql):       # execute non query sentence
         cur = self.get_connect()
         cur.execute(sql)
+        cur.commit()
         self.conn.close()
 
 
