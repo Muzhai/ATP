@@ -159,15 +159,18 @@ def gps_map_marker(baums):
     import folium
     import webbrowser
     gpss = []
+    gps_lat_lon = []
     for baum in baums:
         g = baum['GPS']
         gps = eval('[' + g + ']')
         gpss.append(gps)
         info = baum['tag_id'] + ' ' + baum['date']      # add information
         if gpss[0] == gpss[-1]:
-            m = folium.Map(location=gpss[0], zoom_start=16)
-        folium.Marker(gps, popup=info).add_to(m)
-    ls = folium.PolyLine(locations=gpss, color='blue', opacity='0.5')
+            m = folium.Map(location=gpss[0][0:2], zoom_start=16)
+        folium.Marker(gps[0:2], popup=info).add_to(m)
+    for lat_lon in gpss:
+        gps_lat_lon.append(lat_lon[0:2])
+    ls = folium.PolyLine(locations=gps_lat_lon, color='blue', opacity='0.5')
     ls.add_to(m)
     m.save('temp.html')
     webbrowser.open("temp.html")
