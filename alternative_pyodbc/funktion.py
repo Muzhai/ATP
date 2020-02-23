@@ -3,11 +3,13 @@
 
 
 # connect to server
-def main(server, user, password, database):
+def main(host, user, password, database, default_table='baum_test'):
     try:
         import Class
+        global table_name
+        table_name = default_table
         global mssql
-        mssql = Class.MSSQL(server, user, password, database)
+        mssql = Class.MSSQL(host, user, password, database)
     except Exception as e:
         print("Connect to the database unsuccessful:", e)
     else:
@@ -16,7 +18,7 @@ def main(server, user, password, database):
 
 
 # create a table tag_id, device_id, GPS, date
-def create_table(table_name):
+def create_table(table):
     try:
         sql = """
         IF OBJECT_ID('{0}', 'U') IS NOT NULL
@@ -26,7 +28,7 @@ def create_table(table_name):
             device_id VARCHAR(100),
             GPS varchar(100),
             date varchar(100))
-        """.format(table_name)
+        """.format(table)
         mssql.exec_non_query(sql)
     except Exception as e:
         print("Create table unsuccessful:", e)
@@ -35,14 +37,14 @@ def create_table(table_name):
 
 
 # delete table
-def drop_table(table_name):
+def drop_table(table):
     #  complete delete
-    sql = "drop table {table_name}" .format(table_name=table_name)
+    sql = "drop table {table_name}" .format(table_name=table)
     mssql.exec_non_query(sql)
 
 
 # insert to table baum_test; baum_test is a default table; 'baum' is a dictionary
-def insert_table(baum, table_name='baum_test'):
+def insert_table(baum):
     try:
         sql = """
         insert into {table_name}(tag_id, device_id, GPS, date) 
@@ -56,20 +58,20 @@ def insert_table(baum, table_name='baum_test'):
 
 
 # insert batch data to table; 'baum_list' is a list
-def insert_table_batch(baum_list, table_name='baum_test'):
+def insert_table_batch(baum_list):
     for baum in baum_list:
-        insert_table(baum, table_name)
+        insert_table(baum)
 
 
 # read table total
-def query_table(table_name):
+def query_table(table):
     try:
-        sql = "select * from {table_name}".format(table_name=table_name)
+        sql = "select * from {table_name}".format(table_name=table)
         result=mssql.exec_query(sql)
     except Exception as e:
-        print("Query '{table_name}' unsuccessfully:".format(table_name=table_name), e)
+        print("Query '{table_name}' unsuccessfully:".format(table_name=table), e)
     else:
-        print("Query '{table_name}' successfully!".format(table_name=table_name))
+        print("Query '{table_name}' successfully!".format(table_name=table))
         return result
 
 
@@ -77,9 +79,9 @@ def query_table(table_name):
 def query_table_id(tag_id):
     try:
         sql = """
-            select * from baum_test 
+            select * from {table_name} 
             where tag_id = '{tag_id}' 
-            order by date""" .format(tag_id=tag_id)
+            order by date""" .format(tag_id=tag_id, table_name=table_name)
         result = mssql.exec_query(sql)
     except Exception as e:
         print("Query '{tag_id}' unsuccessfully:".format(tag_id=tag_id), e)
@@ -92,9 +94,9 @@ def query_table_id(tag_id):
 def query_table_ele(table_ele, target):
     try:
         sql = """
-            select * from baum_test 
+            select * from {table_name} 
             where {table_ele} = '{target}' 
-            order by date""" .format(table_ele=table_ele, target=target)
+            order by date""" .format(table_ele=table_ele, target=target, table_name=table_name)
         result = mssql.exec_query(sql)
     except Exception as e:
         print("Query '{table_ele}': '{target}' unsuccessfully:".format(table_ele=table_ele, target=target), e)
@@ -107,9 +109,9 @@ def query_table_ele(table_ele, target):
 def delete_table_id(tag_id):
     try:
         sql = """
-        delete from baum_test 
+        delete from {table_name} 
         where tag_id ='{tag_id}'
-        """ .format(tag_id=tag_id)
+        """ .format(tag_id=tag_id, table_name=table_name)
         mssql.exec_non_query(sql)
     except Exception as e:
         print("Delete '{tag_id}' unsuccessfully:".format(tag_id=tag_id), e)
@@ -136,16 +138,6 @@ def create_login_rw(username, password):
         EXEC sp_addrolemember 'Role_rw','{0}'
         """.format(username, password)
     mssql.exec_non_query(sql)
-
-
-
-def gps_verarbeitung(baum_list):
-    baum_list_new = baum_list[0::2]
-    baum_gps = baum_list[1::2]
-    for baum, gps1 in zip(baum_list_new, baum_gps):
-        str_gps = ", ".join(gps1)
-        baum['GPS'] = str_gps
-    return baum_list_new
 
 
 # ------------------------------------------------------------------------------
@@ -175,87 +167,6 @@ def gps_map_marker(baums):
     m.save('temp.html')
     webbrowser.open("temp.html")
 
-
-
-
-# -----------------------------------------------------------------------------
-# ------------------------------------------------------------------------------
-# create user Role: Role_rw and Role_r
-# def creat_user_role():
-#     sql="""
-#     EXEC sp_addrole 'Role_rw'
-#     GRANT SELECT,INSERT ON baum_test TO Role_rw
-#     EXEC sp_addrole 'Role_r'
-#     GRANT SELECT ON baum_test TO Role_r
-#     """
-#     mssql.exec_non_query(sql)
-
-
-# def create_table1(baum):        # according to dict to create table
-#     li=['tag_id', 'device_id', 'GPS', 'date']       # column name
-#     sql = """
-#     IF OBJECT_ID('{table_name}', 'U') IS NOT NULL
-#         DROP TABLE {table_name}
-#     CREATE TABLE {table_name} (
-#         Num int identity(1,1),
-#         {K[0]} VARCHAR(10) NOT NULL,
-#         {K[1]} VARCHAR(10),
-#         {K[2]} VARCHAR(10),
-#         {K[3]} varchar(10))
-#     """.format(table_name=baum['tag_id'], K=li)
-#     mssql.exec_non_query(sql)
-
-
-# def drop_table(baum):
-#     #  complete delete
-#     sql = "drop table {table_name}" .format(table_name=baum['tag_id'])
-#     mssql.exec_non_query(sql)
-
-
-# def insert_table(baum):     # insert to the table, baum: dict..
-#     sql = """
-#     insert into {D[tag_id]}(tag_id, device_id, GPS, date)
-#     select '{D[tag_id]}',' {D[device_id]}',' {D[GPS]}', '{D[date]}'
-#     """.format(D=baum)
-#     mssql.exec_non_query(sql)
-
-
-
-# def query_table(baum):
-#     sql = "select * from {D[tag_id]}".format(D=baum)
-#     result=mssql.exec_query(sql)
-#     print(result)
-
-
-
-
-
-# def creat_insert_table(baum):       # 根据字典创建并插入值
-#     li=['tag_id', 'device_id', 'GPS', 'date']       # 事先约定好表格的列名
-#     sql = """
-#     IF OBJECT_ID('{D[tag_id]}', 'U') IS NOT NULL
-#         insert into {D[tag_id]}(tag_id, device_id, GPS, date)
-#         select '{D[tag_id]}',' {D[device_id]}',' {D[GPS]}', '{D[date]}'
-#     ELSE
-#         begin
-#             CREATE TABLE {D[tag_id]} (
-#                 Num int identity(1,1),
-#                 {K[0]} VARCHAR(10) NOT NULL,
-#                 {K[1]} VARCHAR(10),
-#                 {K[2]} VARCHAR(10),
-#                 {K[3]} varchar(10))
-#             insert into {D[tag_id]}(tag_id, device_id, GPS, date)
-#             select '{D[tag_id]}',' {D[device_id]}',' {D[GPS]}', '{D[date]}'
-#         end
-#     """.format(table_name=baum['tag_id'], K=li, D=baum)
-#     mssql.exec_non_query(sql)
-#
-
-
-
-# def delete_row(table_name, cursor, row_number='' )
-#     if row_number is NULL
-#         sql = "delete Nr=max(Nr) from %s where Nr=max(Nr)" % (table_name)
 
 
 

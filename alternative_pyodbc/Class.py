@@ -5,19 +5,19 @@ import pyodbc
 
 
 class MSSQL:
-    def __init__(self, host, user, pwd, db, server='{SQL Server}'):  # creat Class, initialize: address, username, password, database
+    def __init__(self, host, user, pwd, db, driver='{SQL Server}'):  # creat Class, initialize: address, username, password, database
         self.host = host
         self.user = user
         self.pwd = pwd
         self.db = db
-        self.server = server
+        self.driver = driver
 
     def get_connect(self):  # connect to the database, return: conn.cursor()
         conct = {'server': self.host,
                  'user': self.user,
                  'pwd': self.pwd,
                  'database': self.db,
-                 'driver': self.server}
+                 'driver': self.driver}
         self.conn = pyodbc.connect(
             '''
         DRIVER={info[driver]};

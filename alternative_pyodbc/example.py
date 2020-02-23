@@ -13,40 +13,8 @@ user = "ATPbaum"
 password = "ATPbaum"
 database = "Baum"
 mssql = main(server, user, password, database)
-
-
 table_name= 'baum_test'
-
-baum = {'tag_id': 'id00001',
-        'device_id': '23did1204',
-        'GPS': '50.783067, 6.045786',
-        'date': '2019.11.26 12:23:12'
-}
-baum2 = {'tag_id': 'id00001',
-        'device_id': 'rgs23451',
-        'GPS': '50.785067, 6.047786',
-        'date': '2019.11.28 12:34:21'
-}
-baum3 = {'tag_id': 'id00001',
-        'device_id': '23did1204',
-        'GPS': '50.783667, 6.049786',
-        'date': '2019.11.27 08:23:23'
-}
-baum4 = {'tag_id': 'id00001',
-        'device_id': '34523',
-        'GPS': '50.783067, 6.055786',
-        'date': '2019.11.21 16:23:23'
-}
-
-baum_list=[]
-baum_list.extend([baum, baum2, baum3, baum4])
-
-tag_id = 'id00001'
-delete_table_id(tag_id)
-
-insert_table_batch(baum_list)
-print(query_table(table_name))
-print(query_table_ele('device_id', 'rgs23451'))
+tag_id = 'tagid:28984'
 i = query_table_id(tag_id)
 
 for ii in i:
