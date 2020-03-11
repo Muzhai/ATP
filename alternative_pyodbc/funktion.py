@@ -156,7 +156,7 @@ def gps_map_marker(baums):
         g = baum['GPS']
         gps = eval('[' + g + ']')
         gpss.append(gps)
-        info = baum['tag_id'] + ' ' + baum['date']      # add information
+        info = 'Tag ID: ' + baum['tag_id'] + ' ' + 'Device ID: ' + baum['device_id'] + ' ' + 'Date: ' + baum['date']      # add information
         if gpss[0] == gpss[-1]:
             m = folium.Map(location=gpss[0][0:2], zoom_start=16)
         folium.Marker(gps[0:2], popup=info).add_to(m)
