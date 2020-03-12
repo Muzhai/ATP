@@ -137,17 +137,6 @@ def create_login_rw(username, password):
         """.format(username, password)
     mssql.exec_non_query(sql)
 
-
-
-def gps_verarbeitung(baum_list):
-    baum_list_new = baum_list[0::2]
-    baum_gps = baum_list[1::2]
-    for baum, gps1 in zip(baum_list_new, baum_gps):
-        str_gps = ", ".join(gps1)
-        baum['GPS'] = str_gps
-    return baum_list_new
-
-
 # ------------------------------------------------------------------------------
 # ----------------------MAPS----------------------------------------------------
 

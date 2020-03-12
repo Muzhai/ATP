@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # _*_ coding:utf-8 _*_
-
 from funktion import main
 from funktion import query_table
 from funktion import insert_table_batch
@@ -13,14 +12,9 @@ host = "127.0.0.1"
 user = "ATPbaum"
 password = "ATPbaum"
 database = "Baum"
-mssql = main(host, user, password, database, default_table='hallo_baum2')
-create_table('hallo_baum2')
-# baums=[
-#     {'device_id': 'Harvester5', 'tag_id': '2898', 'date': '2020.03.04 08:32:08', 'GPS': '50.782255, 6.043275'},
-#     {'device_id': 'Raspberry1', 'tag_id': '2898', 'date': '2020.03.04 14:32:08', 'GPS': '50.783105, 6.044147'},
-#     {'device_id': 'Raspberry2', 'tag_id': '2898', 'date': '2020.03.10 10:00:08', 'GPS': '50.783382, 6.046439'},
-#     {'device_id': 'Raspberry3', 'tag_id': '2898', 'date': '2020.03.11 11:00:00', 'GPS': '50.783045, 6.046415'}
-#      ]
+mssql = main(host, user, password, database, default_table='hallo_baum')
+create_table('hallo_baum')
+
 baums = [
     {'device_id': 'Pi111111', 'tag_id': 'TId:000001', 'date': '2020.03.04 08:32:08', 'GPS': '50.749797, 6.097067, 23, 2'},
     {'device_id': 'Pi222222', 'tag_id': 'TId:000001', 'date': '2020.03.04 14:32:08', 'GPS': '50.750673, 6.098043, 23, 2'},
