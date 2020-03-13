@@ -9,10 +9,10 @@
 	2) install modul folium in python 
 	3) replace the connection information.
 	4) SQL Server: 
-	    a) create databace (Baum)
-	5) run
+	    a) create databace (Baum)  or run initial_database.sql in SQL Server.
+	5) run test.py
 
-    PS. for the remote connect you should change the setting of SQL Server
+    PS. for the remote connection you should change the setting of SQL Server
       
 2.Class MSSQL:
 
