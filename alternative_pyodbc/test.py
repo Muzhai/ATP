@@ -12,8 +12,8 @@ host = "127.0.0.1"
 user = "ATPbaum"
 password = "ATPbaum"
 database = "Baum"
-mssql = main(host, user, password, database, default_table='hallo_baum')
-create_table('hallo_baum')
+mssql = main(host, user, password, database, default_table='baum_test')
+create_table('baum_test')
 
 baums = [
     {'device_id': 'Pi111111', 'tag_id': 'TId:000001', 'date': '2020.03.04 08:32:08', 'GPS': '50.749797, 6.097067, 23, 2'},

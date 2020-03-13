@@ -1,14 +1,4 @@
 
--- create database Baum							--create database Baum 
--- create table baum_test						--create table baum_test
---IF OBJECT_ID('baum_test', 'U') IS NOT NULL
---   DROP TABLE baum_test
---CREATE TABLE baum_test (
---   tag_id VARCHAR(100) NOT NULL,
---   device_id VARCHAR(100),
---   GPS varchar(100),
---   date varchar(100))
-
 --------------------------------------------------------------------------------------------
 EXEC sp_addrole 'Role_rw'						--create a user role
 GRANT SELECT,INSERT ON baum_test TO Role_rw		--grant select and insert right to the role_rw for table baum_test
